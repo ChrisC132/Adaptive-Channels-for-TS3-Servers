@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdaptiveChannelsConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/main/java/TSConfig.xsd">
+    <TSInfo>
+        <TSHost>TeamSpeak Hostname</TSHost>
+        <LoginInfo>
+            <Username>Admin Username</Username>
+            <Password>Admin Password</Password>
+        </LoginInfo>
+        <BotNickname>Name of the Bot</BotNickname>
+    </TSInfo>
+    <ChannelInfo>
+        <Channel ChannelName="Channel 1">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>43</MainChannelID>
+        </Channel>
+        <Channel ChannelName="Channel 2">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>891</MainChannelID>
+        </Channel>
+    </ChannelInfo>
+</AdaptiveChannelsConfig>

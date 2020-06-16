@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class XMLReader {
-    private String xmlPath = "src/TSConfig.xml"; //FIXME Path
+    private String xmlPath = "TSConfig.xml"; //FIXME Path
 
     /***
      * Validates the XML File
@@ -27,7 +27,7 @@ public class XMLReader {
     public boolean validateXMLSchema(){
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(new File("src/TSConfig.xsd"));
+            Schema schema = factory.newSchema(new File("src/main/java/TSConfig.xsd"));
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new File(xmlPath)));
         } catch (IOException | SAXException ex) {
