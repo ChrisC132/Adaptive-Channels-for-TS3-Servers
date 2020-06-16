@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="AdaptiveChannelsConfig">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="TSInfo">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="TSHost" type="xsd:string"></xsd:element>
+                            <xsd:element name="LoginInfo">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="Username" type="xsd:string"></xsd:element>
+                                        <xsd:element name="Password" type="xsd:string"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="BotNickname" type="xsd:string"></xsd:element>
+                            <xsd:element name="TSPort" type="xsd:int" minOccurs="0" maxOccurs="1"></xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="ChannelInfo">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Channel" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="ParentChannelID" type="xsd:int"></xsd:element>
+                                        <xsd:element name="MainChannelID" type="xsd:int"></xsd:element>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="ChannelName" type="xsd:string"></xsd:attribute>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

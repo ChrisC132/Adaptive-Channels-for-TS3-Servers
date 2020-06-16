@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdaptiveChannelsConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TSConfig.xsd">
+    <TSInfo>
+        <TSHost>fugri.de</TSHost>
+        <LoginInfo>
+            <Username>serveradmin</Username>
+            <Password>***REMOVED***</Password>
+        </LoginInfo>
+        <BotNickname>FugriBot</BotNickname>
+    </TSInfo>
+    <ChannelInfo>
+        <Channel ChannelName="TalkZuZweit">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>43</MainChannelID>
+        </Channel>
+        <Channel ChannelName="TalkZuDritt">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>891</MainChannelID>
+        </Channel>
+        <Channel ChannelName="TalkZuViert">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>2010</MainChannelID>
+        </Channel>
+        <Channel ChannelName="TalkZuFünft">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>1344</MainChannelID>
+        </Channel>
+        <Channel ChannelName="TalkZuSechst">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>2092</MainChannelID>
+        </Channel>
+        <Channel ChannelName="Treff">
+            <ParentChannelID>10</ParentChannelID>
+            <MainChannelID>11</MainChannelID>
+        </Channel>
+        <Channel ChannelName="VIP">
+            <ParentChannelID>7</ParentChannelID>
+            <MainChannelID>640</MainChannelID>
+        </Channel>
+        <Channel ChannelName="Supporter">
+            <ParentChannelID>7</ParentChannelID>
+            <MainChannelID>230</MainChannelID>
+        </Channel>
+    </ChannelInfo>
+</AdaptiveChannelsConfig>
