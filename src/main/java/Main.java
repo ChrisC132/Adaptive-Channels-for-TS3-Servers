@@ -64,7 +64,7 @@ public class Main {
             for (Map.Entry<Integer, List<Integer>> entry : channels.entrySet()) {
                 for(int i = 1; i < entry.getValue().size()-1; i++) {
                     if(ChannelIsEmpty(entry.getValue().get(i))) {
-                        System.out.println("Delete " + entry.getValue().get(i));
+                        System.out.println("Deleted " + entry.getValue().get(i));
                         api.deleteChannel(entry.getValue().get(i));
                         entry.getValue().remove(i);
                         i--;
@@ -85,7 +85,7 @@ public class Main {
                         properties.put(ChannelProperty.CHANNEL_FLAG_MAXCLIENTS_UNLIMITED, "0");
                     }
 
-                    int createID = api.createChannel("┣ \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2), properties);
+                    int createID = api.createChannel(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,2)+ "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2), properties);
 
                     //Copy permissions from main channel
                     List<Permission> permissions = api.getChannelPermissions(entry.getValue().get(0));
@@ -93,13 +93,13 @@ public class Main {
                         api.addChannelPermission(createID, elem.getName(), elem.getValue());
                     }
 
-                    System.out.println("Create " + createID);
+                    System.out.println("Created " + createID);
                     entry.getValue().add(createID);
                 }
 
                 //Delete last channel if main channel is empty
                 if(ChannelIsEmpty(entry.getValue().get(entry.getValue().size()-1)) && ChannelIsEmpty(entry.getValue().get(0)) && entry.getValue().size() > 1) {
-                    System.out.println("Delete " + entry.getValue().get(entry.getValue().size()-1));
+                    System.out.println("Deleted " + entry.getValue().get(entry.getValue().size()-1));
                     api.deleteChannel(entry.getValue().get(entry.getValue().size()-1));
                     entry.getValue().remove(entry.getValue().size()-1);
                 }
@@ -119,13 +119,18 @@ public class Main {
 
         channels = xmlReader.getChannels();
 
-        TS3Query query = new TS3Query(new TS3Config().setHost(xmlReader.getTSHost()).setFloodRate(TS3Query.FloodRate.custom(100)).setQueryPort(xmlReader.getPort()));
+        TS3Config config = new TS3Config();
+        config.setHost(xmlReader.getTSHost());
+        config.setFloodRate(TS3Query.FloodRate.custom(100));
+        config.setQueryPort(xmlReader.getPort());
+
+        TS3Query query = new TS3Query(config);
         query.connect();
 
         api = query.getApi();
         api.login(xmlReader.getUsername(), xmlReader.getPassword());
-        api.setNickname(xmlReader.getBotNickname());
         api.selectVirtualServerById(1);
+        api.setNickname(xmlReader.getBotNickname());
 
         System.out.println("RUNNING");
 
