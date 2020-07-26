@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+    //Info of all TS Channels
     private static List<Channel> channelList;
+
     private static Map<Integer, List<Integer>> channels;
     private static TS3Api api;
 
