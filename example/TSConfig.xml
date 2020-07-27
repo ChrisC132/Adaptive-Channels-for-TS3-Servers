@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AdaptiveChannelsConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/main/java/TSConfig.xsd">
+<AdaptiveChannelsConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TSConfig.xsd">
     <TSInfo>
         <TSHost>TeamSpeak Hostname</TSHost>
         <LoginInfo>
@@ -7,6 +7,7 @@
             <Password>Admin Password</Password>
         </LoginInfo>
         <BotNickname>Name of the Bot</BotNickname>
+        <TSPort>1234</TSPort>
     </TSInfo>
     <ChannelInfo>
         <Channel ChannelName="Channel 1">
@@ -18,4 +19,9 @@
             <MainChannelID>891</MainChannelID>
         </Channel>
     </ChannelInfo>
+    <Spacer>
+        <Top>┏</Top>
+        <Middle>┣</Middle>
+        <Bottom>┗</Bottom>
+    </Spacer>
 </AdaptiveChannelsConfig>
