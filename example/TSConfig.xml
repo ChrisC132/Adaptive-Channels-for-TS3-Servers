@@ -3,23 +3,23 @@
     <TSInfo>
         <TSHost>TeamSpeak IP</TSHost>
         <LoginInfo>
-            <Username>serveradmin</Username>
-            <Password>Querry Admin Password</Password>
+            <Username>serveradmin</Username> <!--TS3 Query User Default "serveradmin"-->
+            <Password>Querry User Password</Password>
         </LoginInfo>
         <BotNickname>Name of the Bot</BotNickname>
-        <TSPort>10011</TSPort> <!--Querry Port, Optional, Default 10011-->
+        <TSPort>10011</TSPort> <!--Querry Port, Optional, Default "10011"-->
     </TSInfo>
-    <ChannelInfo>
+    <ChannelInfo> <!--Set Mother Chanel's here-->
         <Channel ChannelName="Channel 1">
-            <ParentChannelID>10</ParentChannelID>
-            <MainChannelID>43</MainChannelID>
+            <ParentChannelID>10</ParentChannelID> <!--The ID of the Channel, which the Motherchannel is a Subchanel of -->
+            <MainChannelID>43</MainChannelID> <!--The ID of the Motherchannel, which should be duplicatet -->
         </Channel>
         <Channel ChannelName="Channel 2">
             <ParentChannelID>10</ParentChannelID>
             <MainChannelID>891</MainChannelID>
         </Channel>
     </ChannelInfo>
-    <Spacer> <!--Optional-->
+    <Spacer> <!--Optional sorting Symbols at the beginning of the Channel Names (Nake sure to set them for the Mother Channels-->
         <Top>┏</Top>
         <Middle>┣</Middle>
         <Bottom>┗</Bottom>
