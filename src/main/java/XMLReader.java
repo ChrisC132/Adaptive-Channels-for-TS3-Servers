@@ -77,6 +77,15 @@ public class XMLReader {
         Element temp = (Element)getNodeList().item(0);
         return temp.getElementsByTagName("ChannelInfo");
     }
+
+    /**
+     * get Spacers from the XML File
+     * @return Spacer
+     */
+    private NodeList getSpacer() {
+        Element temp = (Element)getNodeList().item(0);
+        return temp.getElementsByTagName("Spacer");
+    }
     /**
      * get Hostname
      * @return TeamSpeak Hostname
@@ -134,5 +143,46 @@ public class XMLReader {
         }
 
         return channelList;
+    }
+
+    /**
+     * Tests if there are Spacers in the xml File
+     * @return true: if Spacers exist, else: false
+     */
+    public boolean isSpacerSelected() {
+        return getSpacer().getLength() > 0;
+    }
+
+    /**
+     * get Beginning Spacer
+     * @return Beginning Spacer
+     */
+    public String getTopSpacer() {
+        if(isSpacerSelected())
+            return ((Element)getSpacer().item(0)).getElementsByTagName("Top").item(0).getTextContent();
+
+        return null;
+    }
+
+    /**
+     * get Middle Spacer
+     * @return Middle Spacer
+     */
+    public String getMiddleSpacer() {
+        if(isSpacerSelected())
+            return ((Element)getSpacer().item(0)).getElementsByTagName("Middle").item(0).getTextContent();
+
+        return null;
+    }
+
+    /**
+     * get Get Bottom Spacer
+     * @return Bottom Spacer
+     */
+    public String getBottomSpacer() {
+        if(isSpacerSelected())
+            return ((Element)getSpacer().item(0)).getElementsByTagName("Bottom").item(0).getTextContent();
+
+        return null;
     }
 }

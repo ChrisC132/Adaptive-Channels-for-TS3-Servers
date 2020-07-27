@@ -3,38 +3,51 @@
     <xsd:element name="AdaptiveChannelsConfig">
         <xsd:complexType>
             <xsd:sequence>
+
                 <xsd:element name="TSInfo">
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="TSHost" type="xsd:string"></xsd:element>
+                            <xsd:element name="TSHost" type="xsd:string"/>
                             <xsd:element name="LoginInfo">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element name="Username" type="xsd:string"></xsd:element>
-                                        <xsd:element name="Password" type="xsd:string"></xsd:element>
+                                        <xsd:element name="Username" type="xsd:string"/>
+                                        <xsd:element name="Password" type="xsd:string"/>
                                     </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
-                            <xsd:element name="BotNickname" type="xsd:string"></xsd:element>
-                            <xsd:element name="TSPort" type="xsd:int" minOccurs="0" maxOccurs="1"></xsd:element>
+                            <xsd:element name="BotNickname" type="xsd:string"/>
+                            <xsd:element name="TSPort" type="xsd:int" minOccurs="0" maxOccurs="1"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
+
                 <xsd:element name="ChannelInfo">
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="Channel" maxOccurs="unbounded">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element name="ParentChannelID" type="xsd:int"></xsd:element>
-                                        <xsd:element name="MainChannelID" type="xsd:int"></xsd:element>
+                                        <xsd:element name="ParentChannelID" type="xsd:int"/>
+                                        <xsd:element name="MainChannelID" type="xsd:int"/>
                                     </xsd:sequence>
-                                    <xsd:attribute name="ChannelName" type="xsd:string"></xsd:attribute>
+                                    <xsd:attribute name="ChannelName" type="xsd:string"/>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
+
+                <xsd:element name="Spacer" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Top" type="xsd:string"/>
+                            <xsd:element name="Middle" type="xsd:string"/>
+                            <xsd:element name="Bottom" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

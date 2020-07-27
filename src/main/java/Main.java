@@ -30,6 +30,8 @@ public class Main {
     private static Map<Integer, List<Integer>> channels;
     private static TS3Api api;
 
+    private static XMLReader xmlReader = new XMLReader();
+
     private static int getParentID(int sumID, int mainChannel) {
         return sumID-mainChannel;
     }
@@ -62,14 +64,21 @@ public class Main {
      */
     private static void updateChannels(){
         try{
-            //Delete empty channels
             for (Map.Entry<Integer, List<Integer>> entry : channels.entrySet()) {
+                //Delete empty channels
                 for(int i = 1; i < entry.getValue().size()-1; i++) {
                     if(ChannelIsEmpty(entry.getValue().get(i))) {
                         System.out.println("Deleted " + entry.getValue().get(i));
                         api.deleteChannel(entry.getValue().get(i));
                         entry.getValue().remove(i);
                         i--;
+
+                        if(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1).equals(xmlReader.getBottomSpacer())) {
+                            Map<ChannelProperty, String> oldProperty = new HashMap<>();
+                            oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1));
+                            Main.api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
+
+                        }
                     }
                 }
 
@@ -87,7 +96,25 @@ public class Main {
                         properties.put(ChannelProperty.CHANNEL_FLAG_MAXCLIENTS_UNLIMITED, "0");
                     }
 
-                    int createID = api.createChannel(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,2)+ "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2), properties);
+                    //Edit channel name if Spacer are selected
+                    String channelName;
+                    if(xmlReader.isSpacerSelected()) {
+                        String mainSpacer = api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1);
+
+                        if(!mainSpacer.equals(xmlReader.getBottomSpacer())) {
+                            channelName = xmlReader.getMiddleSpacer()+ " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                        } else {
+                            Map<ChannelProperty, String> oldProperty = new HashMap<>();
+                            oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getMiddleSpacer() + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1));
+                            Main.api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
+
+                            channelName = xmlReader.getBottomSpacer() + " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                        }
+                    } else {
+                        channelName = xmlReader.getMiddleSpacer() + " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                    }
+
+                    int createID = api.createChannel(channelName, properties);
 
                     //Copy permissions from main channel
                     List<Permission> permissions = api.getChannelPermissions(entry.getValue().get(0));
@@ -101,6 +128,12 @@ public class Main {
 
                 //Delete last channel if main channel is empty
                 if(ChannelIsEmpty(entry.getValue().get(entry.getValue().size()-1)) && ChannelIsEmpty(entry.getValue().get(0)) && entry.getValue().size() > 1) {
+                    if(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1).equals(xmlReader.getBottomSpacer())) {
+                        Map<ChannelProperty, String> oldProperty = new HashMap<>();
+                        oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(0)).getName().substring(1));
+                        Main.api.editChannel(entry.getValue().get(0), oldProperty);
+                    }
+
                     System.out.println("Deleted " + entry.getValue().get(entry.getValue().size()-1));
                     api.deleteChannel(entry.getValue().get(entry.getValue().size()-1));
                     entry.getValue().remove(entry.getValue().size()-1);
@@ -112,8 +145,6 @@ public class Main {
     }
 
     public static void main(String ... args) {
-        XMLReader xmlReader = new XMLReader();
-
         if(!xmlReader.validateXMLSchema()) {
             System.out.println("XML File is not valid");
             return;
