@@ -130,8 +130,8 @@ public class Main {
                 if(ChannelIsEmpty(entry.getValue().get(entry.getValue().size()-1)) && ChannelIsEmpty(entry.getValue().get(0)) && entry.getValue().size() > 1) {
                     if(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1).equals(xmlReader.getBottomSpacer())) {
                         Map<ChannelProperty, String> oldProperty = new HashMap<>();
-                        oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(0)).getName().substring(1));
-                        Main.api.editChannel(entry.getValue().get(0), oldProperty);
+                        oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-2)).getName().substring(1));
+                        Main.api.editChannel(entry.getValue().get(entry.getValue().size()-2), oldProperty);
                     }
 
                     System.out.println("Deleted " + entry.getValue().get(entry.getValue().size()-1));
