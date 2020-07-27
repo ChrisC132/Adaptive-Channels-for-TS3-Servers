@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AdaptiveChannelsConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TSConfig.xsd">
     <TSInfo>
-        <TSHost>TeamSpeak Hostname</TSHost>
+        <TSHost>TeamSpeak IP</TSHost>
         <LoginInfo>
-            <Username>Admin Username</Username>
-            <Password>Admin Password</Password>
+            <Username>serveradmin</Username>
+            <Password>Querry Admin Password</Password>
         </LoginInfo>
         <BotNickname>Name of the Bot</BotNickname>
-        <TSPort>1234</TSPort>
+        <TSPort>10011</TSPort> <!--Querry Port, Optional, Default 10011-->
     </TSInfo>
     <ChannelInfo>
         <Channel ChannelName="Channel 1">
@@ -19,7 +19,7 @@
             <MainChannelID>891</MainChannelID>
         </Channel>
     </ChannelInfo>
-    <Spacer>
+    <Spacer> <!--Optional-->
         <Top>┏</Top>
         <Middle>┣</Middle>
         <Bottom>┗</Bottom>
