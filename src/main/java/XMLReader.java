@@ -139,7 +139,7 @@ public class XMLReader {
             int MainChannelID = Integer.parseInt(((Element)channels.item(i)).getElementsByTagName("MainChannelID").item(0).getTextContent());
             int ParentChannelID = Integer.parseInt(((Element)channels.item(i)).getElementsByTagName("ParentChannelID").item(0).getTextContent());
             list.add(MainChannelID);
-            channelList.put(ParentChannelID+MainChannelID, list);
+            channelList.put(ParentChannelID + MainChannelID, list);
         }
 
         return channelList;

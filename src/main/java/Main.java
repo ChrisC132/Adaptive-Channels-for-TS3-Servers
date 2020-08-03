@@ -58,6 +58,116 @@ public class Main {
     }
 
     /**
+     * removes all Spacers from a String
+     * @param chName String to remove
+     * @return clear String
+     */
+    private static String removeSpacer(String chName) {
+        if (! xmlReader.isSpacerSelected())
+            return chName;
+
+        chName = chName.replace(xmlReader.getTopSpacer(), "");
+        chName = chName.replace(xmlReader.getMiddleSpacer(), "");
+        chName = chName.replace(xmlReader.getBottomSpacer(), "");
+        chName = chName.replace("\u200B", "");
+
+        return chName;
+    }
+
+    /**
+     * Repeats a String multiple times
+     * @param input string
+     * @param times repeat
+     * @return repeated String
+     */
+    private static String repeat(String input, int times) {
+        String out = "";
+        for(int i = 0; i < times; i++) {
+            out += input;
+        }
+
+        return out;
+    }
+
+    /**
+     * Checks if the given channel name exists on the TeamSpeak
+     * @param involvedChannels all Channels
+     * @param curName channel name
+     * @return true: if exists; false: else
+     */
+    private static boolean nameExists(List<Integer> involvedChannels, String curName) {
+        for(int chID: involvedChannels) {
+            if(api.getChannelInfo(chID).getName().equals(curName))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Startup routine
+     * Detects already existing adaptive channels, add them to the list and corrects the Name
+     */
+    public static void startUp() {
+        updateChannelList();
+        channels = xmlReader.getChannels();
+
+        //Detect already existing adaptive channels and add them to the list
+        for(int chID: channels.keySet()) {
+            String chName = api.getChannelInfo(channels.get(chID).get(0)).getName();
+            chName = removeSpacer(chName);
+
+            for(Channel ch: channelList) {
+                String tempName = ch.getName();
+                tempName = removeSpacer(tempName);
+
+                if(chName.equals(tempName) && ch.getId() != channels.get(chID).get(0)) {
+                    channels.get(chID).add(ch.getId());
+                }
+            }
+        }
+
+        //Rename channels
+        for(int chID: channels.keySet()) {
+            Map<Integer, String> names = new HashMap<>();
+
+            for(int i = 0; i < channels.get(chID).size(); i++) {
+                String newName = api.getChannelInfo(channels.get(chID).get(i)).getName();
+                newName = newName.replace("\u200B", "");
+
+                names.put(channels.get(chID).get(i), newName.substring(0,1) + repeat("\u200B", i) + newName.substring(1));
+
+            }
+
+            //Edit channel names if necessary
+            int breakCounter = 0;
+            while(names.size() > 0) {
+                breakCounter++;
+                for(int i = 0; i < channels.get(chID).size(); i++) {
+                    if(!api.getChannelInfo(channels.get(chID).get(i)).getName().equals(names.get(channels.get(chID).get(i)))) {
+                        if(!nameExists(channels.get(chID), names.get(channels.get(chID).get(i)))){
+                            Map<ChannelProperty, String> newProperty = new HashMap<>();
+                            newProperty.put(ChannelProperty.CHANNEL_NAME, names.get(channels.get(chID).get(i)));
+                            api.editChannel(channels.get(chID).get(i), newProperty);
+                        }
+
+                        names.remove(channels.get(chID).get(i));
+                        breakCounter = 0;
+                    } else {
+                        names.remove(channels.get(chID).get(i));
+                    }
+                }
+
+                if(breakCounter > 1) {
+                    System.out.println("WARNING: The Teamspeak contains simmilar channel Names: " + names.get(chID));
+                }
+            }
+
+        }
+
+        System.out.println(channels);
+    }
+
+    /**
      * Updates channels.
      * All empty channels (except of one) of a channel group will be removed.
      * If a channel group is full a new channel in this group will be generated.
@@ -76,8 +186,7 @@ public class Main {
                         if(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1).equals(xmlReader.getBottomSpacer())) {
                             Map<ChannelProperty, String> oldProperty = new HashMap<>();
                             oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1));
-                            Main.api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
-
+                            api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
                         }
                     }
                 }
@@ -102,16 +211,16 @@ public class Main {
                         String mainSpacer = api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1);
 
                         if(!mainSpacer.equals(xmlReader.getBottomSpacer())) {
-                            channelName = xmlReader.getMiddleSpacer()+ " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                            channelName = xmlReader.getMiddleSpacer()+ "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1);
                         } else {
                             Map<ChannelProperty, String> oldProperty = new HashMap<>();
                             oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getMiddleSpacer() + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1));
-                            Main.api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
+                            api.editChannel(entry.getValue().get(entry.getValue().size()-1), oldProperty);
 
-                            channelName = xmlReader.getBottomSpacer() + " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                            channelName = xmlReader.getBottomSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1);
                         }
                     } else {
-                        channelName = xmlReader.getMiddleSpacer() + " \u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(2);
+                        channelName = xmlReader.getMiddleSpacer() + "\u200B" + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(1);
                     }
 
                     int createID = api.createChannel(channelName, properties);
@@ -131,7 +240,7 @@ public class Main {
                     if(api.getChannelInfo(entry.getValue().get(entry.getValue().size()-1)).getName().substring(0,1).equals(xmlReader.getBottomSpacer())) {
                         Map<ChannelProperty, String> oldProperty = new HashMap<>();
                         oldProperty.put(ChannelProperty.CHANNEL_NAME, xmlReader.getBottomSpacer() + api.getChannelInfo(entry.getValue().get(entry.getValue().size()-2)).getName().substring(1));
-                        Main.api.editChannel(entry.getValue().get(entry.getValue().size()-2), oldProperty);
+                        api.editChannel(entry.getValue().get(entry.getValue().size()-2), oldProperty);
                     }
 
                     System.out.println("Deleted " + entry.getValue().get(entry.getValue().size()-1));
@@ -150,8 +259,6 @@ public class Main {
             return;
         }
 
-        channels = xmlReader.getChannels();
-
         TS3Config config = new TS3Config();
         config.setHost(xmlReader.getTSHost());
         config.setFloodRate(TS3Query.FloodRate.custom(100));
@@ -164,6 +271,8 @@ public class Main {
         api.login(xmlReader.getUsername(), xmlReader.getPassword());
         api.selectVirtualServerById(1);
         api.setNickname(xmlReader.getBotNickname());
+
+        startUp();
 
         System.out.println("RUNNING");
 
